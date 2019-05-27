@@ -2,100 +2,7 @@ import tensorflow as tf
 import numpy
 import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
-# import input_data
 
-# a = 3
-#
-# w = tf.Variable([[0.5, 1.0]])
-# x = tf.Variable([[2.0], [1.0]])
-#
-# y = tf.matmul(w, x)
-#
-# print(w)
-#
-# init_op = tf.global_variables_initializer()
-# with tf.Session() as sess:
-#     sess.run(init_op)
-#     print(y.eval())
-#     # print(sess.run(y))
-
-
-
-# state = tf.Variable(0)
-# one = tf.constant(1)
-# new_value = tf.add(state, one)
-# update = tf.assign(state, new_value)
-#
-# init_op = tf.global_variables_initializer()
-# saver = tf.train.Saver()
-#
-# with tf.Session() as sess:
-#     sess.run(init_op)
-#     for i in range(3):
-#         sess.run(update)
-#         # print(state.eval())
-#         print(sess.run(state))
-#
-#         savePath = saver.save(sess=sess, save_path='C://Users//justThinking//Desktop//tempSess')
-#         print('save in: ', savePath)
-
-# input1 = tf.placeholder(dtype=tf.float32, shape=(1, 1))
-# input2 = tf.placeholder(dtype=tf.float32, shape=(1, 1))
-# output = tf.matmul(input1, input2)
-#
-# with tf.Session() as sess:
-#     print(sess.run([output], feed_dict={input1: [[7]], input2: [[2]]}))
-
-
-# num_points = 1000
-# vectors_set = []
-# for i in range(num_points):
-#     x1 = numpy.random.normal(0.0, 0.55)
-#     y1 = x1*0.1 + 0.3 + numpy.random.normal(0.0, 0.03)
-#     vectors_set.append([x1, y1])
-#
-# x_data = [v[0] for v in vectors_set]
-# y_data = [v[1] for v in vectors_set]
-#
-#
-#
-#
-# W = tf.Variable(tf.random_uniform(shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32, name='W'))
-# b = tf.Variable(tf.zeros(shape=[1]), name='b')
-# y = W * x_data + b
-#
-# # 定义损失函数
-# loss = tf.reduce_mean(tf.square(y - y_data))
-#
-# # 选择梯度下降优化器
-# optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.5)
-#
-# # 定义训练过程
-# train = optimizer.minimize(loss, name='train')
-#
-# init_op = tf.global_variables_initializer()
-#
-# finalW = 0.0
-# finalb = 0.0
-#
-# with tf.Session() as sess:
-#     sess.run(init_op)
-#     print('W = ', sess.run(W), 'b = ', sess.run(b))
-#
-#     for step in range(20):
-#         sess.run(train)
-#         print('W = ', sess.run(W), ' b = ', sess.run(b), ' loss = ', sess.run(loss))
-#         finalW = sess.run(W)
-#         finalb = sess.run(b)
-#
-# plt.scatter(x_data, y_data, c='r')
-# plt.plot(x_data, finalW * x_data + finalb)
-# plt.show()
-#
-# print('finalW: ', finalW, 'finalb: ', finalb)
-
-
-####
 mnist = input_data.read_data_sets('data/', one_hot=True)
 # print('type of mnist is %s' % (type(mnist)))
 # print('number of train data is %d ' % (mnist.train.num_examples))
@@ -183,8 +90,5 @@ for epoch in range(train_epochs):
 
 sess.close()
 print('DONE')
-
-####
-####
 
 
