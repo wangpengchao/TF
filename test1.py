@@ -171,6 +171,14 @@ for epoch in range(train_epochs):
         sess.run(optm, feed_dict=feeds)
         avg_cost += sess.run(cost, feed_dict=feeds)/num_batch
 
+    #display
+    if epoch%display_step == 0:
+        feeds_train = {x: batch_xs, y: batch_ys}
+        feeds_test = {x: mnist.test.images, y: mnist.test.labels}
+        train_acc = sess.run(accr, feed_dict=feeds_train)
+        test_acc = sess.run(accr, feed_dict=feeds_test)
+        print('Epoch: %03d/%03d')
+
 
 
 sess.close()
