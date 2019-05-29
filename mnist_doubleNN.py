@@ -72,7 +72,7 @@ for epoch in range(train_epochs):
 
     if (epoch + 1) % display_step == 0:
         test_feeds = {x: mnist.test.images, y: mnist.test.labels}  # 准备数据，用于测试
-        print('Epoch: %03d/%03d  cost:%.9f' % (epoch, train_epochs, avg_loss))
+        print('Epoch: %03d/%03d  loss:%.9f' % (epoch, train_epochs, avg_loss))
 
         train_accuracy = sess.run(accuracy, feed_dict=feeds)
         print('Trian accuracy: %.3f' % (train_accuracy))
