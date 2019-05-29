@@ -39,6 +39,7 @@ display_step = 5  # 每5轮显示一次
 sess = tf.Session()
 sess.run(init)
 
+# 总共训练 train_epochs 轮，每一轮中分为 batch_amount 个训练批次， 每个批次中有 batch_size 个数据
 for epoch in range(train_epochs):
     avg_cost = 0.0
     for i in range(batchs_amount):
