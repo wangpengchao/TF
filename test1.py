@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy
+import pandas
 import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
 # import input_data
@@ -189,9 +190,40 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 
 
-for x in range(5):
-    name = 'wangpchao'
-    print(name)
+# for x in range(5):
+#     name = 'wangpchao'
+#     print(name)
+#
+# print('循环结束')
+# print(name)
 
-print('循环结束')
-print(name)
+
+
+# excelFile = pandas.read_excel('C://Users//just_thinking//Desktop//四级练习得分统计.xlsx')
+# excelFile = pandas.read_excel('data/excel1.xlsx',sheet_name='Sheet1')
+# data = excelFile.values
+# data = excelFile.head()
+# data = excelFile.ix[[0, 4], ['晚饭（9）']].values
+# data = excelFile.ix[[0, 4], [0, 3]].values
+
+# print(format(data))
+# print('获取到的值：\n{0}'.format(data))
+#
+# lineNumbers = excelFile.index.values
+# print(len(lineNumbers))
+#
+# print(excelFile.columns.values)
+#
+# testData = []
+# for i in excelFile.index.values:
+#     rowData = excelFile.ix[i, excelFile.columns.values].to_dict()
+#     testData.append(rowData)
+# print('最终得到的数据：{0}'.format(testData))
+
+food_info = pandas.read_csv('data/food_info.csv')
+
+# print(food_info.columns)
+# print(food_info.shape)
+# print(food_info.loc[0])
+ndb_col = food_info[['NDB_No','Shrt_Desc']]
+print(ndb_col)

@@ -24,7 +24,7 @@ cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(actv), reduction_indices=1))  # 
 learn_rate = 0.01
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=learn_rate).minimize(cost)  # 梯度下降求解的优化器
 
-# 1表示按行获取最大值得下标，查看查看预测结果actv返回的下标和真实的y的下标是否一致
+# 1表示按行获取最大值得下标，查看预测结果actv返回的下标和真实的y的下标是否一致
 prediction = tf.equal(tf.argmax(actv, 1), tf.argmax(y, 1))
 
 accuracy = tf.reduce_mean(tf.cast(prediction, 'float'))  # 使用均值衡量准确率，将true和false转换为float类型（true-》1.0， false-》0.0）
