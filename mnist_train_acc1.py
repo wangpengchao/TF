@@ -15,7 +15,7 @@ y = tf.placeholder(dtype=tf.float32, shape=[None, 10])  # ?*10 大小的二维�
 W = tf.Variable(tf.zeros(shape=[784, 10]))  # W参数为 784*10 大小的二维矩阵
 b = tf.Variable(tf.zeros(shape=[10]))  # b参数为 长度为 10 的向量
 
-actv = tf.nn.softmax(tf.matmul(x, W) + b)  # 预测结果: Tensor("Softmax:0", shape=(?, 10), dtype=float32)
+actv = tf.nn.softmax(tf.matmul(x, W) + b)  # 激活函数(activate)，可以理解为预测结果: Tensor("Softmax:0", shape=(?, 10), dtype=float32)
 cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(actv), reduction_indices=1))  # y*log(actv)获取真正值得交叉熵损失
 
 # print('y.shape: ', y.shape)  # y.shape:  (?, 10)
@@ -43,10 +43,13 @@ sess.run(init)
 for epoch in range(train_epochs):
     avg_cost = 0.0
     for i in range(batchs_amount):
-        batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+        total_loss = 0.0
+        batch_xs, batch_ys = mnist.train.next_batch(batch_size)  # 按顺序取出数据，数据量为 batch_size
         feeds = {x: batch_xs, y: batch_ys}
         sess.run(optimizer, feed_dict=feeds)
-        avg_cost += sess.run(cost, feed_dict=feeds)/batchs_amount
+        total_loss += sess.run(cost, feed_dict=feeds)
+
+        avg_cost = total_loss/batchs_amount
 
     # print('batch_xs: ', batch_xs)
     # print('batch_ys: ', batch_ys)

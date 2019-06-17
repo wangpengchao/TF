@@ -31,14 +31,14 @@ biases = {
 }
 print('network readly\n')
 
-
+# 多层感知机
 def multilayer_perceptron(X, weights, biases):
     layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(X, weights['w1']), biases['b1']))
     layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights['w2']), biases['b2']))
     return tf.matmul(layer_2, weights['out']) + biases['out']
 
 
-# 预测
+# 使用多层感知机得到预测结果
 prediction = multilayer_perceptron(X=x, weights=weights, biases=biases)
 
 # 损失和优化
@@ -64,7 +64,7 @@ for epoch in range(train_epochs):
     for i in range(total_batch):
         total_loss = 0.0
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)  # 取出当前 批次(batch) 中的x和y
-        feeds = {x: batch_xs, y:batch_ys}  # 提前准备好要喂入的x和y
+        feeds = {x: batch_xs, y: batch_ys}  # 提前准备好要喂入的x和y
         sess.run(optimizer, feed_dict=feeds)
         total_loss += sess.run(loss, feed_dict=feeds)
 
