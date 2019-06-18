@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy
-import pandas
+# import pandas
 import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
 # import input_data
@@ -220,10 +220,32 @@ from tensorflow.examples.tutorials.mnist import input_data
 #     testData.append(rowData)
 # print('最终得到的数据：{0}'.format(testData))
 
-food_info = pandas.read_csv('data/food_info.csv')
+# food_info = pandas.read_csv('data/food_info.csv')
 
 # print(food_info.columns)
 # print(food_info.shape)
 # print(food_info.loc[0])
-ndb_col = food_info[['NDB_No','Shrt_Desc']]
-print(ndb_col)
+
+
+
+# # 输出以g为单位的列
+# import pandas
+# food_info = pandas.read_csv('data/food_info.csv')
+# endWithG = []
+# food_info_columns = food_info.columns.tolist()
+# for item in food_info_columns:
+#     if item.endswith('(g)'):
+#         endWithG.append(item)
+#
+# gramdf = food_info[endWithG]
+# print(gramdf.head())
+
+# # 添加一列，并赋值
+# import pandas
+# food_info = pandas.read_csv('data/food_info.csv')
+# Iron_grams = food_info['Iron_(mg)']/1000
+# food_info['Iron_(g)'] = Iron_grams
+# print(food_info[['Iron_(mg)', 'Iron_(g)']])
+
+
+
