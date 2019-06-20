@@ -227,7 +227,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 # print(food_info.loc[0])
 
 
-
+# # 2019年6月19日21:40:09
 # # 输出以g为单位的列
 # import pandas
 # food_info = pandas.read_csv('data/food_info.csv')
@@ -240,6 +240,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 # gramdf = food_info[endWithG]
 # print(gramdf.head())
 
+
+# # 2019年6月19日21:39:56
 # # 添加一列，并赋值
 # import pandas
 # food_info = pandas.read_csv('data/food_info.csv')
@@ -248,4 +250,45 @@ from tensorflow.examples.tutorials.mnist import input_data
 # print(food_info[['Iron_(mg)', 'Iron_(g)']])
 
 
+# # 2019年6月19日21:40:27
+# # 排序
+# import pandas
+# food_info = pandas.read_csv('data/food_info.csv')
+# food_info.sort_values('Water_(g)', inplace=True, ascending=False)  # 默认是升序排序,使用ascending=False之后变为降序
+# print(food_info['Water_(g)'])
 
+
+# # 2019年6月19日21:38:22
+# # 使用 pandas.isnull 和 pandas.notnull 表示是否为缺失值
+# import pandas
+# titanic_survival = pandas.read_csv('data/titanic_train.csv')
+# age = titanic_survival['Age']
+#
+# ageIsNull = pandas.isnull(age)  # True 缺失值 false表示有值
+# ageNotNull = pandas.notnull(age)    # True 表示有值 False 表示缺失值
+# # print(ageIsNull)
+# ageFalse = age[ageIsNull]
+# # print(ageFalse)
+
+
+# 2019年6月19日21:38:02
+# 计算某一列的平均值，如果这一列中含有缺失值，那么计算结果为nan，需要提前处理
+# import pandas
+# titanic_survival = pandas.read_csv('data/titanic_train.csv')
+# meanAge = sum(titanic_survival['Age'])/len(titanic_survival['Age'])
+# print(meanAge)
+
+
+# 2019年6月19日21:44:23
+# 使用剔除缺失值的方式计算均值
+import pandas
+titanic_survival = pandas.read_csv('data/titanic_train.csv')
+
+age = titanic_survival['Age']
+ageNotNull = pandas.notnull(age)  # 如果不是缺失值，则会返回 True
+ageTrue = age[ageNotNull]
+goodAges = titanic_survival['Age'][ageTrue==True]
+
+print(type(goodAges))
+meanAge = sum(goodAges)/len(goodAges)
+print(meanAge)
