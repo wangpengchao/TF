@@ -1,8 +1,8 @@
-import tensorflow as tf
-import numpy
-# import pandas
-import matplotlib.pyplot as plt
-from tensorflow.examples.tutorials.mnist import input_data
+# import tensorflow as tf
+# import numpy
+# # import pandas
+# import matplotlib.pyplot as plt
+# from tensorflow.examples.tutorials.mnist import input_data
 # import input_data
 
 # a = 3
@@ -279,16 +279,160 @@ from tensorflow.examples.tutorials.mnist import input_data
 # print(meanAge)
 
 
-# 2019年6月19日21:44:23
-# 使用剔除缺失值的方式计算均值
-import pandas
-titanic_survival = pandas.read_csv('data/titanic_train.csv')
+# # 2019年6月19日21:44:23
+# # 使用剔除缺失值的方式计算均值
+# import pandas
+# titanic_survival = pandas.read_csv('data/titanic_train.csv')
+#
+# age = titanic_survival['Age']
+# ageNotNull = pandas.notnull(age)  # 如果不是缺失值，则会返回 True
+#
+# # goodAges = titanic_survival['Age'][ageNotNull == True]
+# goodAges = age[ageNotNull]
+#
+# # print(goodAges)
+# # print(type(goodAges))
+# meanAge = sum(goodAges)/len(goodAges)
+# print(meanAge)
+#
+# # # 视频中计算均值的方式
+# # ageIsNull = pandas.isnull(age)
+# # goodAge =  titanic_survival['Age'][ageIsNull == False]
+# # # print(goodAge)  # 此时输出的都是非缺失值
+# # meanAge = sum(goodAge)/len(goodAge)
+# # print(meanAge)
 
-age = titanic_survival['Age']
-ageNotNull = pandas.notnull(age)  # 如果不是缺失值，则会返回 True
-ageTrue = age[ageNotNull]
-goodAges = titanic_survival['Age'][ageTrue==True]
 
-print(type(goodAges))
-meanAge = sum(goodAges)/len(goodAges)
-print(meanAge)
+# # 2019年6月20日09:24:33
+# # 直接调用函数求均值
+# import pandas
+# titanic_survival = pandas.read_csv('data/titanic_train.csv')
+# meanAge = titanic_survival['Age'].mean()    # 注意调用函数的时候，不带括号表示函数赋值，将函数功能赋值给新的变量；带括号表示将函数的结果赋值给变量
+# # meanAge = titanic_survival['Age'].mean
+# # meanAge()
+# print(meanAge)
+
+
+# 2019年6月20日09:54:43
+# 按照仓位等级进行统计
+# passengerClasses = [1, 2, 3]
+# faresByClass = {}
+# for this_class in passengerClasses:
+#     pass
+
+
+# 2019年6月21日10:55:05
+# 学习使用sklearn进行svm机器学习
+# import numpy
+# from sklearn import datasets
+# from sklearn.pipeline import Pipeline
+# from sklearn.preprocessing import StandardScaler
+# from sklearn.svm import LinearSVC
+#
+# iris = datasets.load_iris()
+# X = iris['data'][:, (2,3)]  # 花瓣长度，花瓣宽度
+# y = (iris['target'] == 2).astype(numpy.float64)
+#
+# svm_clf = Pipeline((
+#     ('scaler', StandardScaler()),
+#     ('linear_svc', LinearSVC(C=1, loss='hinge')),
+# ))
+#
+# svm_clf.fit(X, y)
+# print(svm_clf.predict([[1.0, 1]]))
+
+
+# 2019年6月21日10:59:14
+'''
+学习pipeline
+ 可以把多个评估器链接成一个。这个是很有用的，因为处理数据的步骤一般都是固定的，例如特征选择、标准化和分类。Pipeline 主要有两个目的:
+
+    便捷性和封装性 你只要对数据调用 fit和 predict 一次来适配所有的一系列评估器。
+    联合的参数选择 你可以一次grid search管道中所有评估器的参数。
+    安全性 训练转换器和预测器使用的是相同样本，管道有助于防止来自测试数据的统计数据泄露到交叉验证的训练模型中。
+
+管道中的所有评估器，除了最后一个评估器，管道的所有评估器必须是转换器。 (例如，必须有 transform 方法). 最后一个评估器的类型不限（转换器、分类器等等）
+'''
+
+# # 2019年6月21日14:12:32
+# # 构建管道
+# from sklearn.pipeline import Pipeline
+# from sklearn.svm import SVC
+# from sklearn.decomposition import PCA
+# estimators = [('reduce_dim', PCA()), ('clf', SVC())]
+# pipe = Pipeline(estimators)
+# print(pipe)
+# print(pipe.steps[0])  # 按照索引输出 steps 中的内容
+# print('===')
+# print(pipe[0])  # 按照索引输出管道中评估器的内容
+# print('===')
+# print(pipe['clf'])  # 按照索引输出内容
+# print('===')
+# print(pipe.steps)
+#
+# # 管道中的评估器参数可以通过 <estimators>__<parameter> = newValue 的语义来访问，例如下面的 clf__c
+# pipe.set_params( clf__C = 10)
+# print(pipe)
+
+
+# # 2019年6月21日14:12:13
+# # 使用 make_pipeline 构建管道，它接受过个评估器并返回一个管道，自动填充评估器的名称
+# from sklearn.pipeline import make_pipeline
+# from sklearn.naive_bayes import MultinomialNB
+# from sklearn.preprocessing import Binarizer
+#
+# myPipe =  make_pipeline(Binarizer(), MultinomialNB())
+# print(myPipe)
+
+
+# # 2019年6月21日14:52:00
+# # 网格搜索
+# from sklearn.model_selection import GridSearchCV
+# from sklearn.pipeline import Pipeline
+# from sklearn.svm import SVC
+# from sklearn.decomposition import PCA
+#
+# estimators = [('reduce_dim', PCA()), ('clf', SVC())]
+# pipe = Pipeline(estimators)
+#
+# param_grid = dict(reduce_dim__n_components = [2, 5, 10],
+#                   clf__C = [0.1, 10, 100])
+# grid_search = GridSearchCV(pipe, param_grid = param_grid)
+# print(grid_search)
+
+
+# # 2019年6月21日16:09:56
+# # 非线性svm分类
+# from sklearn.datasets import make_moons
+# from sklearn.pipeline import Pipeline
+# from sklearn.preprocessing import StandardScaler
+# from sklearn.svm import LinearSVC
+# from sklearn.preprocessing import PolynomialFeatures
+#
+# estimators = [
+#     ('pol_feature', PolynomialFeatures(degree=3)),
+#     ('scaler', StandardScaler()),
+#     ('svm_clf', LinearSVC(C=10, loss='hinge'))]
+#
+# polynomial_svm_clf = Pipeline(estimators)
+# polynomial_svm_clf.fix()
+
+# # 2019年6月21日21:56:55
+# # 使用shuffle函数打乱矩阵中的数据（多维数组按照 行 打乱）
+# import numpy
+# array1 = numpy.array([[1,2,3],
+#                       [4,5,6],
+#                       [7,8,9],
+#                       [12,13,14]])
+# numpy.random.shuffle(array1)
+# print(array1)
+
+
+# 2019年6月22日15:13:30
+# 使用numpy读取数据
+import numpy
+file = 'data/train_1.txt'
+cubFile = numpy.loadtxt(fname=file, delimiter=',')
+print(cubFile.shape)
+print(type(cubFile[0][1]))
+print(cubFile[0][1] + 2)
