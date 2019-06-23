@@ -428,11 +428,11 @@
 # print(array1)
 
 
-# 2019年6月22日15:13:30
-# 使用numpy读取数据
-import numpy
-file = 'data/train_1.txt'
-cubFile = numpy.loadtxt(fname=file, delimiter=',')
-print(cubFile.shape)
-print(type(cubFile[0][1]))
-print(cubFile[0][1] + 2)
+# # 2019年6月22日15:13:30
+# # 使用numpy读取数据
+# import numpy
+# file = 'data/train_1.txt'
+# cubFile = numpy.loadtxt(fname=file, delimiter=',')
+# print(cubFile.shape)
+# print(type(cubFile[0][1]))
+# print(cubFile[0][1] + 2)
