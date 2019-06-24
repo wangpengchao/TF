@@ -436,3 +436,8 @@
 # print(cubFile.shape)
 # print(type(cubFile[0][1]))
 # print(cubFile[0][1] + 2)
+
+
+# 2019年6月24日09:40:39
+import sklearn.metrics
+print(help(sklearn.metrics))
