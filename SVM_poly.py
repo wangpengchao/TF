@@ -11,6 +11,7 @@ from sklearn.metrics import precision_score  # 精准率
 train0 = numpy.loadtxt(fname='data/train_0.txt', delimiter=',')
 train1 = numpy.loadtxt(fname='data/train_1.txt', delimiter=',')
 
+numpy.random.seed(42)  # 将随机的结果固定
 numpy.random.shuffle(train0)
 newTrain0 = train0[0:300]
 

@@ -438,6 +438,14 @@
 # print(cubFile[0][1] + 2)
 
 
-# 2019年6月24日09:40:39
-import sklearn.metrics
-print(help(sklearn.metrics))
+# # 2019年6月24日09:40:39
+# import sklearn.metrics
+# print(help(sklearn.metrics))
+
+# 2019年6月25日17:26:55
+l1 = ('hello', 'wpc')
+def say(a, b):
+     print(a,b)
+
+# apply(say, l1)
+l1.apply(say)
