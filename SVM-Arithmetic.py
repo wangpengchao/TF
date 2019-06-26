@@ -1,4 +1,5 @@
 import numpy
+import xlrd
 from sklearn.preprocessing import normalize
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -6,6 +7,50 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
 import sklearn.model_selection
 
+
+# 预处理文件：将xlsx文件处理成txt格式的文件
+def pre_data():
+    excel_file = xlrd.open_workbook('final_model.xlsx')
+    sheet=excel_file.sheet_by_index(0)
+    nrows = sheet.nrows
+    with open('train_1.txt', 'w', encoding='utf-8') as train_file_1:
+        with open('train_0.txt', 'w', encoding='utf-8') as train_file_0:
+            for row in range(nrows):
+                if (row == 0):
+                    continue
+                row_data = sheet.row_values(row)
+                K_arer = row_data[7]
+                if (K_arer == ''):
+                    continue
+                His_arer = row_data[16]
+                if (His_arer == ''):
+                    continue
+
+                n_arer = row_data[10]
+                if (type(n_arer) == str):
+                    if (row > 0):
+                        n_arer = float(str(n_arer).strip("'"))
+                        row_data[10] = n_arer
+
+                row_data[8] = round(row_data[7] - row_data[8], 2)
+                row_data[9] = round(row_data[9] - row_data[7], 2)
+
+                row_data[11] = round(row_data[10] - row_data[11], 2)
+                row_data[12] = round(row_data[12] - row_data[10], 2)
+
+                row_data[14] = round(row_data[13] - row_data[14], 2)
+                row_data[15] = round(row_data[15] - row_data[13], 2)
+
+                row_data[17] = round(row_data[17] - abs(row_data[16] - row_data[7])/row_data[17]*100, 2)
+
+
+                row_data = [row_data[0]] + row_data[7:18]
+                str_data = str(row_data).strip('[]')
+                print('第 ' + str(row) + '行：',str_data)
+                if row_data[0] > 0.5:
+                    train_file_1.write(str(str_data) + '\n')
+                else:
+                    train_file_0.write(str(str_data) + '\n')
 
 # 实现简单的加载文件的功能
 def load_text_file(file_name, delimiter=','):
