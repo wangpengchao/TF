@@ -131,9 +131,18 @@ def testSetCheck(identifier, testRatio):
 def splitTrainTestById(data, testRatio, id_colum):
     ids = data[id_colum]
 
-    print(type(ids))  # 查看类型是否是 dataframe 类型
+    # print(type(ids))  # pandas.core.series.Series 类型
     inTestSet = ids.apply(lambda id_: testSetCheck(id_, testRatio))
+    print(type(inTestSet))
     return data.loc[~inTestSet], data.loc[inTestSet]
+
+
+houseWithId = house.reset_index()  # 重置索引，默认将旧索引添加为列，并使用新的顺序索引
+
+houseWithId['id'] = house['longitude']*1000 + house['latitude']
+
+trainSet, testSet = splitTrainTestById(houseWithId, 0.2, 'index')
+print(testSet.head())
 
 
 

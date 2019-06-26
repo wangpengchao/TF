@@ -449,3 +449,7 @@ def say(a, b):
 
 # apply(say, l1)
 l1.apply(say)
+
+
+
+
