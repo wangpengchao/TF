@@ -444,11 +444,7 @@
 
 # 2019年6月25日17:26:55
 l1 = ('hello', 'wpc')
-def say(a, b):
-     print(a,b)
-
-# apply(say, l1)
-l1.apply(say)
+print(str(l1))
 
 
 

@@ -5,7 +5,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 import sklearn.model_selection
+from sklearn.externals import joblib
+import re
 
 
 # 预处理文件：将xlsx文件处理成txt格式的文件
@@ -52,6 +55,7 @@ def pre_data():
                 else:
                     train_file_0.write(str(str_data) + '\n')
 
+
 # 实现简单的加载文件的功能
 def load_text_file(file_name, delimiter=','):
     '''
@@ -89,8 +93,8 @@ def get_samples(train0_file, train1_file):
 
 
 # 从数据集中分离出 训练集 和 测试集，并进行归一化处理
-def split_train_test(train_samples, testRatio):
-    train_set, test_set = sklearn.model_selection.train_test_split(train_samples, test_size=testRatio)
+def split_train_test(train_samples, test_ratio):
+    train_set, test_set = sklearn.model_selection.train_test_split(train_samples, test_size=test_ratio)
 
     train_label = train_set[:, 0].astype(numpy.int)
     train_set = train_set[:, 1:]
@@ -104,35 +108,94 @@ def split_train_test(train_samples, testRatio):
     return train_label, train_set, test_label, test_set
 
 
-def svm_train(train_label, train_set, test_label, test_set):
+# 进行训练前，先让用户决定是否自动获取最优超参数。得到的结果参数一并传到训练函数中
+def get_best_parameter():
+    pass
+
+
+# 三种不同核函数的训练方法
+# 1.线性核函数
+def train_linear_kernel():
     estimators = [
         ("poly_features", PolynomialFeatures(degree=2)),
         ("scaler", StandardScaler()),
         ("svm_clf", LinearSVC(C=0.1, loss="hinge", random_state=42))
     ]
     pipe = Pipeline(estimators)
+    return pipe
+
+
+# 2.poly核函数
+def train_poly_kernel():
+    estimators = [
+        ("scaler", StandardScaler()),
+        ("svm_clf", SVC(kernel="poly", degree=2, coef0=1, C=0.1))
+    ]
+    pipe = Pipeline(estimators)
+    return pipe
+
+
+# 3.高斯核函数 rbf
+def train_rbf_kernel():
+    estimators = [
+        ("scaler", StandardScaler()),
+        ("svm_clf", SVC(kernel="rbf", gamma=5, C=0.1))
+    ]
+    pipe = Pipeline(estimators)
+    return pipe
+
+
+# 保存训练好的模型
+def save_model(pipe_model):
+    joblib.dump(pipe_model, 'data/savedModel.m')
+    print('保存成功。')
+
+
+# 加载之前训练的模型
+def load_model(file_name):
+    joblib.load(filename=file_name)
+
+
+def svm_train(kernel, train_label, train_set, test_label, test_set):
+
+    # estimators = [
+    #     ("poly_features", PolynomialFeatures(degree=2)),
+    #     ("scaler", StandardScaler()),
+    #     ("svm_clf", LinearSVC(C=0.1, loss="hinge", random_state=42))
+    # ]
+    # print('estimators', type(estimators))
+    # pipe = Pipeline(estimators)
+
+    if kernel == 'linear':
+        pipe = train_linear_kernel()
+    elif kernel == 'poly':
+        pipe = train_poly_kernel()
+    elif kernel == 'rbf':
+        pipe = train_rbf_kernel()
+
     pipe.fit(train_set, train_label)
-    predictResult = pipe.predict(test_set)
+    predict_result = pipe.predict(test_set)
 
     tp = fp = fn = tn = 0
     for i in range(len(test_label)):
-        if (test_label[i] == 1) and (predictResult[i] == 1):
+        if (test_label[i] == 1) and (predict_result[i] == 1):
             tp = tp + 1
-        if (test_label[i] == 0) and (predictResult[i] == 1):
+        if (test_label[i] == 0) and (predict_result[i] == 1):
             fp = fp + 1
-        if (test_label[i] == 1) and (predictResult[i] == 0):
+        if (test_label[i] == 1) and (predict_result[i] == 0):
             fn = fn + 1
-        if (test_label[i] == 0) and (predictResult[i] == 0):
+        if (test_label[i] == 0) and (predict_result[i] == 0):
             tn = tn + 1
     # print('1样本准确率：', tp / (tp + fp))
     # print('1样本召回率：', tp / (tp + fn))
     # print('0样本准确率：', tn / (tn + fn))
     # print('0样本召回率：', tn / (tn + fp))
-    return tp / (tp + fp), tp / (tp + fn), tn / (tn + fn), tn / (tn + fp)
+    return pipe, tp / (tp + fp), tp / (tp + fn), tn / (tn + fn), tn / (tn + fp)
 
 
 if __name__ == '__main__':
     trainSamples = get_samples(train0_file='data/train_0.txt', train1_file='data/train_1.txt')
-    trainLabel, trainSet, testLabel, testSet = split_train_test(train_samples=trainSamples, testRatio=0.2)
-    r1, r2, r3, r4 = svm_train(trainLabel, trainSet, testLabel, testSet)
+    trainLabel, trainSet, testLabel, testSet = split_train_test(train_samples=trainSamples, test_ratio=0.2)
+    trained_pipe, r1, r2, r3, r4 = svm_train('linear', trainLabel, trainSet, testLabel, testSet)
+    save_model(pipe_model=trained_pipe)
     print(r1, r2, r3, r4)
